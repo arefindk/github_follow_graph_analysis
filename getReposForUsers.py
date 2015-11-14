@@ -110,7 +110,7 @@ for result in results:
 			followersInserted += 1
 			print followersInserted, " ",current_mongo_insert_id
 		except:
-			print "no user found"
+			print "User not found ", currentUser
 			deletedFolloweesFile.write(str(currentUser)+"\n")
 
 deletedFolloweesFile.close()
