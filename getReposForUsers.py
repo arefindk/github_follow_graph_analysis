@@ -58,7 +58,7 @@ for result in results:
 			git = Github(tokens[tokenIndex])
 			currentLimit = git.get_rate_limit()
 			remaining = currentLimit.rate.remaining
-			#print "remaining ", remaining
+			print "rate remaining ", remaining
 			tokensUsed += 1
 		## Try catch block for the users to avoid the exception github.GithubException.UnknownObjectException: 404 {u'documentation_url': u'https://developer.github.com/v3', u'message': u'Not Found'}
 		try:
@@ -137,7 +137,7 @@ for result in results:
 			git = Github(tokens[tokenIndex])
 			currentLimit = git.get_rate_limit()
 			remaining = currentLimit.rate.remaining
-			#print "remaining ", remaining
+			print "rate remaining ", remaining
 			tokensUsed += 1
 		## Try catch block for the users to avoid the exception github.GithubException.UnknownObjectException: 404 {u'documentation_url': u'https://developer.github.com/v3', u'message': u'Not Found'}
 		try:
