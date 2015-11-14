@@ -12,7 +12,7 @@ follow = db.follow
 users = db.users
 
 ## Reading the comma separated token file
-filename = "tokens.dat"
+filename = "github_tokens.dat"
 openfile = open(filename, 'rt')
 token_file = csv.reader(openfile)
 token_file.next() # skipping the first line which is an headerline
