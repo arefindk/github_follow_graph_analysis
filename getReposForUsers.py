@@ -50,7 +50,7 @@ for result in results:
 		## Here I am taking care of the api limit
 		currentLimit = git.get_rate_limit()
 		remaining = currentLimit.rate.remaining
-		#print "remaining ", remaining
+		print "rate remaining ", remaining
 		if remaining < 10:
 			#print "tokensUsed ", tokensUsed
 			tokenIndex = (tokensUsed % len(tokens))
@@ -129,7 +129,7 @@ for result in results:
 		## Here I am taking care of the api limit
 		currentLimit = git.get_rate_limit()
 		remaining = currentLimit.rate.remaining
-		#print "remaining ", remaining
+		print "rate remaining ", remaining
 		if remaining < 10:
 			#print "tokensUsed ", tokensUsed
 			tokenIndex = (tokensUsed % len(tokens))
