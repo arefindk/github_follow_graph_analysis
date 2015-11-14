@@ -69,8 +69,21 @@ for result in results:
 			doc["login"] = currentUser
 			doc["follow_id"] = result["_id"]["follow_id"]
 
-			
 			doc["created_at"] = currentUserFromGithubAPI.created_at
+			doc["id"] = currentUserFromGithubAPI.id
+			doc["name"] = currentUserFromGithubAPI.name
+			doc["type"] = currentUserFromGithubAPI.type
+			doc["html_url"] = currentUserFromGithubAPI.html_url
+			doc["followers_url"] = currentUserFromGithubAPI.followers_url
+			doc["following_url"] = currentUserFromGithubAPI.following_url
+			doc["company"] = currentUserFromGithubAPI.company
+			doc["location"] = currentUserFromGithubAPI.location
+			doc["email"] = currentUserFromGithubAPI.email
+			doc["followers"] = currentUserFromGithubAPI.followers
+			doc["following"] = currentUserFromGithubAPI.following
+			doc["public_repos"] = currentUserFromGithubAPI.public_repos
+			doc["public_gists"] = currentUserFromGithubAPI.public_gists
+			
 			repoLanguages = list()
 			repoCount = 0
 			repos = list()
@@ -152,6 +165,20 @@ for result in results:
 
 			
 			doc["created_at"] = currentUserFromGithubAPI.created_at
+			doc["id"] = currentUserFromGithubAPI.id
+			doc["name"] = currentUserFromGithubAPI.name
+			doc["type"] = currentUserFromGithubAPI.type
+			doc["html_url"] = currentUserFromGithubAPI.html_url
+			doc["followers_url"] = currentUserFromGithubAPI.followers_url
+			doc["following_url"] = currentUserFromGithubAPI.following_url
+			doc["company"] = currentUserFromGithubAPI.company
+			doc["location"] = currentUserFromGithubAPI.location
+			doc["email"] = currentUserFromGithubAPI.email
+			doc["followers"] = currentUserFromGithubAPI.followers
+			doc["following"] = currentUserFromGithubAPI.following
+			doc["public_repos"] = currentUserFromGithubAPI.public_repos
+			doc["public_gists"] = currentUserFromGithubAPI.public_gists
+
 			repoLanguages = list()
 			repoCount = 0
 			repos = list()
