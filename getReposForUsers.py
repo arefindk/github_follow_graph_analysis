@@ -44,7 +44,7 @@ results = follow.aggregate(pipelineUniqueFolloweeeLogin, allowDiskUse=True)
 followersInserted = 0
 for result in results:
 	currentUser = result["_id"]["login"]
-	#print currentUser, result["_id"]["follow_id"]
+	print currentUser, result["_id"]["follow_id"]
 	resultExists = users.find_one({"login":currentUser})
 	if not resultExists:
 		#print "he is not found in db, so inserting"
@@ -111,7 +111,7 @@ for result in results:
 			print followersInserted, " ",current_mongo_insert_id
 		except:
 			print "no user found"
-			deletedFolloweesFile.write(currentUser+"\n")
+			deletedFolloweesFile.write(str(currentUser)+"\n")
 
 deletedFolloweesFile.close()
 
@@ -125,7 +125,7 @@ results = follow.aggregate(pipelineUniqueFollowerLogin, allowDiskUse=True)
 followeesInserted = 0
 for result in results:
 	currentUser = result["_id"]["login"]
-	#print currentUser, result["_id"]["follow_id"]
+	print currentUser, result["_id"]["follow_id"]
 	resultExists = users.find_one({"login":currentUser})
 	if not resultExists:
 		#print "he is not found in db, so inserting"
@@ -193,6 +193,6 @@ for result in results:
 			print followeesInserted, " ",current_mongo_insert_id
 		except:
 			print "User not found ", currentUser
-			deletedFollowersFile.write(currentUser+"\n")
+			deletedFollowersFile.write(str(currentUser)+"\n")
 
 deletedFollowersFile.close()
