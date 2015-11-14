@@ -52,7 +52,7 @@ for result in results:
 		currentLimit = git.get_rate_limit()
 		remaining = currentLimit.rate.remaining
 		print "rate remaining ", remaining
-		if remaining < 10:
+		while remaining < 10:
 			#print "tokensUsed ", tokensUsed
 			tokenIndex = (tokensUsed % len(tokens))
 			#print "tokenIndex ", tokenIndex
@@ -83,7 +83,7 @@ for result in results:
 			doc["following"] = currentUserFromGithubAPI.following
 			doc["public_repos"] = currentUserFromGithubAPI.public_repos
 			doc["public_gists"] = currentUserFromGithubAPI.public_gists
-			
+
 			repoLanguages = list()
 			repoCount = 0
 			repos = list()
@@ -146,7 +146,7 @@ for result in results:
 		currentLimit = git.get_rate_limit()
 		remaining = currentLimit.rate.remaining
 		print "rate remaining ", remaining
-		if remaining < 10:
+		while remaining < 10:
 			#print "tokensUsed ", tokensUsed
 			tokenIndex = (tokensUsed % len(tokens))
 			#print "tokenIndex ", tokenIndex
