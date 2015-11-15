@@ -34,7 +34,7 @@ tokenIndex = 0
 git  = Github(tokens[tokenIndex])
 
 ## Aggregate by the unique followee
-pipelineUniqueFolloweeeLogin = [{"$group":{"_id":{"login":"$payload_target_login","follow_id":"$_id"},"cnt":{"$sum":1}}},\
+pipelineUniqueFolloweeeLogin = [{"$group":{"_id":"$payload_target_login","cnt":{"$sum":1}}},\
 				{"$sort":{"cnt":-1}}]
 
 ## This result contains all of the unique followees in the databaase
@@ -43,8 +43,8 @@ results = follow.aggregate(pipelineUniqueFolloweeeLogin, allowDiskUse=True)
 ## Now for each followee we are creating a profile for that github user with his name, profile creation time, number of repos, the language the user has most repos in, and for each repo with their languages
 followeesInserted = 0
 for result in results:
-	currentUser = result["_id"]["login"]
-	print "traversing ", currentUser, result["_id"]["follow_id"]
+	currentUser = result["_id"]
+	print "traversing ", currentUser
 	resultExists = users.find_one({"login":currentUser})
 	if not resultExists:
 		#print "he is not found in db, so inserting"
@@ -67,7 +67,6 @@ for result in results:
 
 			doc = {}
 			doc["login"] = currentUser
-			doc["follow_id"] = result["_id"]["follow_id"]
 
 			doc["created_at"] = currentUserFromGithubAPI.created_at
 			doc["id"] = currentUserFromGithubAPI.id

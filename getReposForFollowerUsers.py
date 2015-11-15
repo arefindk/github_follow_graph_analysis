@@ -34,7 +34,7 @@ tokenIndex = 0
 git  = Github(tokens[tokenIndex])
 
 ## Aggregate by the unique follower
-pipelineUniqueFollowerLogin = [{"$group":{"_id":{"login":"$actor_attributes_login","follow_id":"$_id"},"cnt":{"$sum":1}}},{"$sort":{"cnt":-1}}]
+pipelineUniqueFollowerLogin = [{"$group":{"_id":"$actor_attributes_login","cnt":{"$sum":1}}},{"$sort":{"cnt":-1}}]
 
 
 results = follow.aggregate(pipelineUniqueFollowerLogin, allowDiskUse=True)
@@ -42,8 +42,8 @@ results = follow.aggregate(pipelineUniqueFollowerLogin, allowDiskUse=True)
 ## Now for each follower we are creating a profile for that github user with his name, profile creation time, number of repos, the language the user has most repos in, and for each repo with their languages
 followersInserted = 0
 for result in results:
-	currentUser = result["_id"]["login"]
-	print "traversing ", currentUser, result["_id"]["follow_id"]
+	currentUser = result["_id"]
+	print "traversing ", currentUser
 	resultExists = users.find_one({"login":currentUser})
 	if not resultExists:
 		#print "he is not found in db, so inserting"
@@ -63,11 +63,8 @@ for result in results:
 		## Try catch block for the users to avoid the exception github.GithubException.UnknownObjectException: 404 {u'documentation_url': u'https://developer.github.com/v3', u'message': u'Not Found'}
 		try:
 			currentUserFromGithubAPI = git.get_user(currentUser)
-
 			doc = {}
 			doc["login"] = currentUser
-			doc["follow_id"] = result["_id"]["follow_id"]
-
 			
 			doc["created_at"] = currentUserFromGithubAPI.created_at
 			doc["id"] = currentUserFromGithubAPI.id
@@ -121,7 +118,7 @@ for result in results:
 			doc["repos"] = repos
 			#print doc
 			current_mongo_insert_id = users.insert_one(doc).inserted_id
-			followeesInserted += 1
+			followersInserted += 1
 			print followersInserted, " ",current_mongo_insert_id
 		except:
 			print "User not found ", currentUser
