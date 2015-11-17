@@ -31,7 +31,7 @@ tokenIndex = 0
 git  = Github(tokens[tokenIndex])
 
 ## Aggregate by the unique follower
-pipelineUniqueFollowerLogin = [{"$group":{"_id":"$actor_attributes_login","cnt":{"$sum":1}}},{"$sort":{"cnt":-1}}]
+pipelineUniqueFollowerLogin = [{"$match":{"traversed_actor":{"$exists":False}}},{"$group":{"_id":"$actor_attributes_login","cnt":{"$sum":1}}},{"$sort":{"cnt":-1}}]
 
 
 results = follow.aggregate(pipelineUniqueFollowerLogin, allowDiskUse=True)
@@ -41,6 +41,13 @@ followersInserted = 0
 for result in results:
 	currentUser = result["_id"]
 	print "traversing ", currentUser
+	
+	## Updating all the documents with traversed_payload true so that in future they do not have to be traversed again
+	findDoc = {"actor_attributes_login":currentUser}
+	updateDoc = {"$set":{"traversed_actor":True}}
+	res = db.follow.update_many(findDoc,updateDoc)
+	print "matched ", res.matched_count, "modified ", res.modified_count
+
 	resultExists = users.find_one({"login":currentUser})
 	if not resultExists:
 		isDeletedUser = deleted.find_one({"login":currentUser})
