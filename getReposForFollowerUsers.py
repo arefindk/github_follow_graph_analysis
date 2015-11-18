@@ -5,6 +5,7 @@ import datetime
 import csv
 from collections import defaultdict,Counter
 from random import shuffle
+from bson.objectid import ObjectId
 
 ## Load mongodb
 client = MongoClient("mongodb://localhost:27017/")
