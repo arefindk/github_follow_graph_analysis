@@ -12,6 +12,7 @@ db = client.github_follow
 follow = db.follow
 users = db.users
 deleted = db.deleted_users
+actors = db.actors
 
 ## Reading the comma separated token file
 filename = "github_tokens.dat"
@@ -30,23 +31,23 @@ tokensUsed = 0
 tokenIndex = 0
 git  = Github(tokens[tokenIndex])
 
-## Aggregate by the unique follower
-pipelineUniqueFollowerLogin = [{"$match":{"traversed_actor":{"$exists":False}}},{"$group":{"_id":"$actor_attributes_login","cnt":{"$sum":1}}},{"$sort":{"cnt":-1}}]
+## Find the un-traversed users in the actors database
+findDoc = {"traversed":False}
 
-
-results = follow.aggregate(pipelineUniqueFollowerLogin, allowDiskUse=True)
+## This result contains all of the unique followees in the databaase
+results = actors.find(findDoc)
 
 ## Now for each follower we are creating a profile for that github user with his name, profile creation time, number of repos, the language the user has most repos in, and for each repo with their languages
 followersInserted = 0
 for result in results:
-	currentUser = result["_id"]
+	currentUser = result["login"]
+	id = result["_id"]
 	print "traversing ", currentUser
 	
-	## Updating all the documents with traversed_payload true so that in future they do not have to be traversed again
-	findDoc = {"actor_attributes_login":currentUser}
-	updateDoc = {"$set":{"traversed_actor":True}}
-	res = db.follow.update_many(findDoc,updateDoc)
-	print "matched ", res.matched_count, "modified ", res.modified_count
+	## Updating all the payload documents with traversed:true so that in future they do not have to be traversed again
+	findDoc = {"_id":ObjectId(str(id))}
+	updateDoc = {"$set":{"traversed":True}}
+	res = db.actors.update(findDoc,updateDoc)
 
 	resultExists = users.find_one({"login":currentUser})
 	if not resultExists:
