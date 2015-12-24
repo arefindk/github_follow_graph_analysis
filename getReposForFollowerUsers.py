@@ -112,18 +112,37 @@ for result in results:
 					d = defaultdict(int)
 					for language in repoLanguages:
 						d[language] += 1
+					
+					all_langs = list()
+ 					for current_lang, current_lang_count in d.iteritems():
+ 						lang = dict()
+ 						lang['lang'] = current_lang
+ 						lang['count'] = current_lang_count
+ 						lang['portion'] = current_lang_count / float(repoCount)
+ 						all_langs.append(lang)
+
 					res = Counter(d).most_common(2)
 					currentUserNativeLanguage = res[0][0]
+					reposInNativeLaguage  = d[currentUserNativeLanguage]
+					portionInNativeLanguage = reposInNativeLaguage / float(repoCount)
 					## If in any case the most common language of the user is None then we are taking the second most common language it used
 					if not currentUserNativeLanguage:
 						if len(res) > 1:
 							currentUserNativeLanguage = res[1][0]
 							print "currentUser ", currentUser, " res ",res
+							reposInNativeLaguage  = d[currentUserNativeLanguage]
+							portionInNativeLanguage = reposInNativeLaguage / float(repoCount)
 				else:
 					currentUserNativeLanguage = None
+					reposInNativeLaguage = 0
+					portionInNativeLanguage = 0
+					all_langs = None
 				doc["native_language"] = currentUserNativeLanguage
+				doc["native_language_repo_count"] = reposInNativeLaguage
+				doc["native_language_portion"] = portionInNativeLanguage
 				doc["repo_count"] = repoCount
 				doc["repos"] = repos
+				doc["repo_count_all_langs"] = all_langs
 				#print doc
 				current_mongo_insert_id = users.insert_one(doc).inserted_id
 				followersInserted += 1
