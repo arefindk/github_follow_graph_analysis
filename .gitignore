@@ -37,3 +37,6 @@
 *.zip
 *.graphml
 *.dat
+
+# I don't have any json config file here, most of them are big data file. So I am ignoring them
+*.json
