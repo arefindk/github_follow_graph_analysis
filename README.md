@@ -20,3 +20,5 @@
 
 ### Now running the crawlers:
 - To create all the list of `payloads`, `actors`, `approvers` and `requesters` in mongodb, you have to run the  `createUserDB.py` and `create_merged_pull_users.py` first.
+
+- You should first create a index in your database. in the mongo shell you can create an index using this command e.g. `db.users.createIndex( { login: 1 } )`
