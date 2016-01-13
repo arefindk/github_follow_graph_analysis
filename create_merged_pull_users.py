@@ -13,21 +13,21 @@ merged_pull = db.merged_pull
 approvers = db.approvers
 requesters = db.requesters
 
-# ## Aggregate by unique approvers
-# pipelineUniqueApproverLogin = [{"$group":{"_id":"$payload_pull_request_merged_by_login","cnt":{"$sum":1}}},	{"$sort":{"cnt":-1}}]
+## Aggregate by unique approvers
+pipelineUniqueApproverLogin = [{"$group":{"_id":"$payload_pull_request_merged_by_login","cnt":{"$sum":1}}},	{"$sort":{"cnt":-1}}]
 
-# ## This result contains all of the unique approvers in the databaase
-# results = merged_pull.aggregate(pipelineUniqueApproverLogin, allowDiskUse=True)
+## This result contains all of the unique approvers in the databaase
+results = merged_pull.aggregate(pipelineUniqueApproverLogin, allowDiskUse=True)
 
-# ## Now inserting them to the payload database for traversing them later
-# approversInserted = 0
-# for approver in results:
-# 	currentUser = approver["_id"]
-# 	print "traversing ", currentUser, " with documents ", approver["cnt"]
-# 	approverDoc = {"login":currentUser, "cnt":approver["cnt"],"traversed":False}
-# 	db.approvers.insert(approverDoc)
-# 	approversInserted +=1
-# 	print "Inserted Approvers ", approversInserted
+## Now inserting them to the payload database for traversing them later
+approversInserted = 0
+for approver in results:
+	currentUser = approver["_id"]
+	print "traversing ", currentUser, " with documents ", approver["cnt"]
+	approverDoc = {"login":currentUser, "cnt":approver["cnt"],"traversed":False}
+	db.approvers.insert(approverDoc)
+	approversInserted +=1
+	print "Inserted Approvers ", approversInserted
 
 ## Aggregate by unique requesters
 pipelineUniqueRequesterLogin = [{"$group":{"_id":"$payload_pull_request_head_user_login","cnt":{"$sum":1}}},{"$sort":{"cnt":-1}}]
