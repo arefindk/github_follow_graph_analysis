@@ -15,7 +15,7 @@ users = db.users
 deleted = db.deleted_users
 requester = db.requester
 
-## Reading the comma separated token file
+## Reading the comma separated github token file
 filename = "github_tokens.dat"
 openfile = open(filename, 'rt')
 token_file = csv.reader(openfile)
